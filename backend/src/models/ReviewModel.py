@@ -1,4 +1,4 @@
-from database.db import get_connection
+from database.db import get_connection, release_connection
 from .entities.Review import Review
 
 
@@ -21,7 +21,10 @@ class ReviewModel:
             connection.close()
             return reviews
         except Exception as e:
-            return Exception(e)
+            print(f"Error en get_reviews: {e}")
+            return {"error": "Error al obtener los reviews"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def get_review(cls, id):
@@ -39,7 +42,8 @@ class ReviewModel:
             connection.close()
             return rev
         except Exception as e:
-            return Exception(e)
+            print(f"Error en get_review: {e}")
+            return {"error": "Error al obtener el review"}
 
     @classmethod
     def add_review(cls, review):
@@ -56,7 +60,10 @@ class ReviewModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en add_review: {e}")
+            return {"error": "Error al agregar el review"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def delete_review(cls, id):
@@ -71,7 +78,8 @@ class ReviewModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en delete_review: {e}")
+            return {"error": "Error al eliminar el review"}
 
     @classmethod
     def update_review(cls, review):
@@ -88,4 +96,5 @@ class ReviewModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en update_review: {e}")
+            return {"error": "Error al actualizar el review"}
