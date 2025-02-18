@@ -1,0 +1,53 @@
+# Evita subir archivos de configuración y dependencias
+.env
+*.env
+config.py
+
+# Evita subir el entorno virtual
+venv/
+venv/*
+
+# Evita archivos generados por Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Evita archivos de logs y cachés
+logs/
+*.log
+*.pid
+
+# Evita archivos generados por editores de código
+.vscode/
+.idea/
+*.swp
+
+# Evita archivos de Docker innecesarios
+docker-compose.override.yml
+.DS_Store
+
+# Evita subir archivos de dependencias innecesarias
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Evita subir archivos compilados de PyInstaller
+dist/
+build/
+*.spec
+
+# Evita que Git maneje dependencias instaladas localmente
+__pypackages__/
+site/
+
+# Evita archivos de caché de Jupyter
+.ipynb_checkpoints/
+
+# Evita subidas accidentales de archivos de compilación en Linux/Mac
+*.so
+*.o
+*.a
+*.out
+*.bin
