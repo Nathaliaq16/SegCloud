@@ -1,4 +1,4 @@
-from database.db import get_connection
+from database.db import get_connection, release_connection
 from .entities.Usuario import Usuario
 
 
@@ -21,7 +21,10 @@ class UsuarioModel:
             connection.close()
             return usuarios
         except Exception as e:
-            return Exception(e)
+            print(f"Error en get_usuarios: {e}")
+            return {"error": "Error al obtener los usuarios"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def get_usuario(cls, id):
@@ -39,7 +42,10 @@ class UsuarioModel:
             connection.close()
             return user
         except Exception as e:
-            return Exception(e)
+            print(f"Error en get_usuario: {e}")
+            return {"error": "Error al obtener el usuario"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def add_usuario(cls, usuario):
@@ -56,7 +62,10 @@ class UsuarioModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en add_usuario: {e}")
+            return {"error": "Error al agregar el usuario"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def delete_usuario(cls, id):
@@ -71,7 +80,10 @@ class UsuarioModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en delete_usuario: {e}")
+            return {"error": "Error al eliminar el usuario"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def update_usuario(cls, usuario):
@@ -88,4 +100,7 @@ class UsuarioModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en update_usuario: {e}")
+            return {"error": "Error al actualizar el usuario"}
+        finally:
+            release_connection(connection)
