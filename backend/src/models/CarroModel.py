@@ -1,4 +1,4 @@
-from database.db import get_connection
+from database.db import get_connection, release_connection
 from .entities.Carro import Carro
 
 
@@ -17,11 +17,12 @@ class CarroModel:
                 for carro in resultset:
                     car = Carro(carro[0], carro[1], carro[2], carro[3], carro[4], carro[5], carro[6])
                     carros.append(car.to_JSON())
-
-            connection.close()
             return carros
         except Exception as e:
-            return Exception(e)
+            print(f"Error en get_carros: {e}")
+            return {"error": "Error al obtener los carros"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def get_carro(cls, id):
@@ -31,16 +32,15 @@ class CarroModel:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT * FROM public.carros WHERE id=%s", (id,))
                 carro = cursor.fetchone()
-
-                car = None
-                if carro is not None:
-                    car = Carro(carro[0], carro[1], carro[2], carro[3], carro[4], carro[5], carro[6])
-                    car = car.to_JSON()
-
-            connection.close()
-            return car
+                
+                if carro:
+                    return Carro(*carro).to_JSON() # Devolver el carro encontrado
+                return {"message": "Carro no encontrado"}
         except Exception as e:
-            return Exception(e)
+            print(f"Error en get_carro: {e}")
+            return {"error": "Error al obtener el carro"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def add_carro(cls, carro):
@@ -57,7 +57,11 @@ class CarroModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en add_carro: {e}")
+            return {"error": "Error al agregar el carro"}
+        finally:
+            release_connection(connection)
+
 
     @classmethod
     def delete_carro(cls, id):
@@ -72,7 +76,10 @@ class CarroModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en delete_carro: {e}")
+            return {"error": "Error al eliminar el carro"}
+        finally:
+            release_connection(connection)
 
     @classmethod
     def update_carro(cls, carro):
@@ -89,4 +96,7 @@ class CarroModel:
             connection.close()
             return affected_rows
         except Exception as e:
-            return Exception(e)
+            print(f"Error en update_carro: {e}")
+            return {"error": "Error al actualizar el carro"}
+        finally:
+            release_connection(connection)
