@@ -49,6 +49,30 @@ class UsuarioModel:
             release_connection(connection)
 
     @classmethod
+    def get_usuario_by_email(cls, email):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT id, username, email, password_hash FROM public.usuarios WHERE email=%s", (email,))
+                usuario = cursor.fetchone()
+
+                if usuario:
+                    return {
+                        "id": usuario[0],
+                        "username": usuario[1],
+                        "email": usuario[2],
+                        "password_hash": usuario[3]
+                    }
+                return None  # Si el usuario no existe
+        except Exception as e:
+            print(f"Error en get_usuario_by_email: {e}")
+            return None
+        finally:
+            release_connection(connection)
+
+
+    @classmethod
     def add_usuario(cls, usuario):
         try:
             connection = get_connection()
