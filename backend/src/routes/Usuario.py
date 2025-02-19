@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models.UsuarioModel import UsuarioModel
 from models.entities.Usuario import Usuario
-from utils.jwt_manager import generate_jwt
+from utils.jwt_manager import generate_jwt, require_jwt
 from utils.security import check_password
 
 usuario_bp = Blueprint('usuario_bp', __name__)
@@ -34,6 +34,7 @@ def login():
 
 
 @usuario_bp.route('/', methods=['GET'])
+@require_jwt
 def get_usuarios():
     try:
         usuarios = UsuarioModel.get_usuarios()
@@ -43,6 +44,7 @@ def get_usuarios():
 
 
 @usuario_bp.route('/<id>', methods=['GET'])
+@require_jwt
 def get_usuario(id):
     try:
         usuario = UsuarioModel.get_usuario(id)
@@ -85,6 +87,7 @@ def add_usuario():
 
 
 @usuario_bp.route('/update/<id>', methods=['PUT'])
+@require_jwt
 def update_usuario(id):
     try:
         data = request.json
@@ -117,6 +120,7 @@ def update_usuario(id):
 
 
 @usuario_bp.route('/delete/<id>', methods=['DELETE'])
+@require_jwt
 def delete_usuario(id):
     try:
         affected_rows = UsuarioModel.delete_usuario(id)
