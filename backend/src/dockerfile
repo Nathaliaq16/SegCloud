@@ -7,20 +7,6 @@ COPY . .
 # Agregar PYTHONPATH para asegurar que los módulos se encuentren
 ENV PYTHONPATH=/src
 
-# Crear config.py dentro del contenedor en /src/
-RUN echo "from decouple import config\n\
-\n\
-class Config:\n\
-    SECRET_KEY = config('SECRET_KEY', default='supersupersecreto')\n\
-\n\
-class DevelopmentConfig(Config):\n\
-    DEBUG = True\n\
-\n\
-config = {\n\
-    'development': DevelopmentConfig,\n\
-    'default': DevelopmentConfig\n\
-}" > /src/config.py
-
 # Instalar dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
