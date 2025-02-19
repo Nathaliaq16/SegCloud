@@ -108,7 +108,7 @@ class UsuarioModel:
             return {"message": "Usuario agregado exitosamente"}
         except Exception as e:
             print(f"Error en add_usuario: {e}")
-            return {"error": "Error al agregar el usuario"}
+            return {"error": "Error al agregar el usuario", "message": str(e)}
         finally:
             release_connection(connection)
 
