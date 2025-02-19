@@ -4,7 +4,7 @@ from decouple import config
 from functools import wraps
 from flask import request, jsonify
 
-SECRET_KEY = config("SECRET_KEY", default="supersecreto")
+SECRET_KEY = config("SECRET_KEY", default="supersupersecreto")
 
 def generate_jwt(user_id):
     payload = {
@@ -29,6 +29,9 @@ def require_jwt(f):
         token = request.headers.get("Authorization")
         if not token:
             return jsonify({"error": "Token faltante"}), 401
+
+        # Asegurar que el token tiene formato correcto
+        token = token.replace("Bearer ", "").strip()
 
         payload = verify_jwt(token)
         if not payload:
