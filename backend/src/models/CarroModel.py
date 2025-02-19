@@ -1,5 +1,6 @@
 from database.db import get_connection, release_connection
 from .entities.Carro import Carro
+import bleach
 
 
 class CarroModel:
@@ -38,6 +39,9 @@ class CarroModel:
             connection = get_connection()
 
             with connection.cursor() as cursor:
+                if not isinstance(id, int) or id <= 0:
+                    return {"error": "ID inválido"}
+
                 cursor.execute(
                     "SELECT id, usuario_id, location, model, price, year, km FROM public.carros WHERE id=%s",
                     (id,),
@@ -67,6 +71,10 @@ class CarroModel:
                     or carro.year > 2050
                 ):
                     return {"error": "Año inválido"}
+                
+                # Sanitizar los campos de texto
+                carro.model = bleach.clean(carro.model)
+                carro.location = bleach.clean(carro.location)
 
                 cursor.execute(
                     """INSERT INTO public.carros (usuario_id, location, model, price, year, km)
