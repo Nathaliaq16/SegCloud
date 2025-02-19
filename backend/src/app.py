@@ -3,6 +3,14 @@ from flask_cors import CORS
 from flask_uploads import UploadSet, configure_uploads
 from config import config
 from routes import Carro, Review, Usuario
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+# Configuración de Flask-Limiter
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["5 per minute"]
+)
 
 app = Flask(__name__)
 
