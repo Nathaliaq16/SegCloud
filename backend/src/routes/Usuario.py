@@ -3,12 +3,12 @@ from models.UsuarioModel import UsuarioModel
 from models.entities.Usuario import Usuario
 from utils.jwt_manager import generate_jwt, require_jwt
 from utils.security import check_password
-from flask_limiter import Limiter
+from app import limiter
 
 usuario_bp = Blueprint('usuario_bp', __name__)
 
 @usuario_bp.route('/login', methods=['POST'])
-@Limiter.limit("3 per minute")
+@limiter.limit("3 per minute")
 def login():
     try:
         data = request.json

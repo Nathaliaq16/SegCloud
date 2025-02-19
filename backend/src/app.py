@@ -9,10 +9,12 @@ from flask_limiter.util import get_remote_address
 # Configuración de Flask-Limiter
 limiter = Limiter(
     key_func=get_remote_address,
+    app=None,
     default_limits=["5 per minute"]
 )
 
 app = Flask(__name__)
+limiter.init_app(app) # Inicializar Flask-Limiter
 
 # Configuración de Flask-Uploads
 app.config['UPLOADED_FILES_DEST'] = 'StudentsLists'
