@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify
 from models.CarroModel import CarroModel
 from models.entities.Carro import Carro
+from utils.jwt_manager import require_jwt
 
 carro_bp = Blueprint('carro_bp', __name__)
 
 
 @carro_bp.route('/', methods=['GET'])
+@require_jwt
 def get_carros():
     try:
         carros = CarroModel.get_carros()
@@ -26,6 +28,7 @@ def get_carro(id):
 
 
 @carro_bp.route('/add', methods=['POST'])
+@require_jwt
 def add_carro():
     try:
         data = request.json
@@ -46,6 +49,7 @@ def add_carro():
 
 
 @carro_bp.route('/update/<id>', methods=['PUT'])
+@require_jwt
 def update_carro(id):
     try:
         data = request.json
@@ -67,6 +71,7 @@ def update_carro(id):
 
 
 @carro_bp.route('/delete/<id>', methods=['DELETE'])
+@require_jwt
 def delete_carro(id):
     try:
         affected_rows = CarroModel.delete_carro(id)
