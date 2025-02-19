@@ -1,8 +1,36 @@
 from flask import Blueprint, request, jsonify
 from models.UsuarioModel import UsuarioModel
 from models.entities.Usuario import Usuario
+from utils.jwt_manager import generate_jwt
+from utils.security import check_password
 
 usuario_bp = Blueprint('usuario_bp', __name__)
+
+@usuario_bp.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.json
+        email = data.get("email")
+        password = data.get("password")
+
+        # Buscar usuario en la BD
+        usuario = UsuarioModel.get_usuario_by_email(email)
+        if not usuario:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        # Verificar contraseña
+        if not check_password(password, usuario["password_hash"]):
+            return jsonify({"error": "Contraseña incorrecta"}), 401
+
+        # Generar Token JWT
+        token = generate_jwt(usuario["id"])
+        return jsonify({"token": token}), 200
+
+    except Exception as e:
+        print(f"Error en login: {e}")
+        return jsonify({"error": "Error en el login"}), 500
+        
+        
 
 
 @usuario_bp.route('/', methods=['GET'])
