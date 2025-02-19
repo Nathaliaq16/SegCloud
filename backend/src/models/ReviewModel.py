@@ -1,5 +1,6 @@
 from database.db import get_connection, release_connection
 from .entities.Review import Review
+import bleach
 
 
 class ReviewModel:
@@ -31,6 +32,9 @@ class ReviewModel:
         try:
             connection = get_connection()
 
+            if not isinstance(id, int) or id <= 0:
+                return {"error": "ID inválido"}
+            
             with connection.cursor() as cursor:
                 cursor.execute(
                     "SELECT id, usuario_id, carro_id, rating, comment, review_date FROM public.review WHERE id=%s",
@@ -60,6 +64,9 @@ class ReviewModel:
                     or review.rating > 5
                 ):
                     return {"error": "El rating debe ser un número entre 1 y 5"}
+
+                # Limpiar el comentario de HTML y JS
+                review.comment = bleach.clean(review.comment)
 
                 cursor.execute(
                     """INSERT INTO public.review (usuario_id, carro_id, rating, comment, review_date)
