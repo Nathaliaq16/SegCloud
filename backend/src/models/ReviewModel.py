@@ -32,7 +32,10 @@ class ReviewModel:
             connection = get_connection()
 
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM public.review WHERE id=%s", (id,))
+                cursor.execute(
+                    "SELECT id, usuario_id, carro_id, rating, comment, review_date FROM public.review WHERE id=%s",
+                    (id,),
+                )
                 review = cursor.fetchone()
 
                 rev = None
@@ -51,9 +54,25 @@ class ReviewModel:
             connection = get_connection()
 
             with connection.cursor() as cursor:
-                cursor.execute("""INSERT INTO public.review (usuario_id, carro_id, rating, comment, review_date)
-                               VALUES (%s, %s, %s, %s, %s)""",
-                               (review.usuario_id, review.carro_id, review.rating, review.comment, review.review_date))
+                if (
+                    not isinstance(review.rating, (int, float))
+                    or review.rating < 1
+                    or review.rating > 5
+                ):
+                    return {"error": "El rating debe ser un número entre 1 y 5"}
+
+                cursor.execute(
+                    """INSERT INTO public.review (usuario_id, carro_id, rating, comment, review_date)
+                                VALUES (%s, %s, %s, %s, %s)""",
+                    (
+                        review.usuario_id,
+                        review.carro_id,
+                        review.rating,
+                        review.comment,
+                        review.review_date,
+                    ),
+                )
+
                 affected_rows = cursor.rowcount
                 connection.commit()
 
@@ -87,9 +106,18 @@ class ReviewModel:
             connection = get_connection()
 
             with connection.cursor() as cursor:
-                cursor.execute("""UPDATE public.review SET usuario_id=%s, carro_id=%s, rating=%s, comment=%s, review_date=%s
+                cursor.execute(
+                    """UPDATE public.review SET usuario_id=%s, carro_id=%s, rating=%s, comment=%s, review_date=%s
                                WHERE id = %s""",
-                               (review.usuario_id, review.carro_id, review.rating, review.comment, review.review_date, review.id))
+                    (
+                        review.usuario_id,
+                        review.carro_id,
+                        review.rating,
+                        review.comment,
+                        review.review_date,
+                        review.id,
+                    ),
+                )
                 affected_rows = cursor.rowcount
                 connection.commit()
 
