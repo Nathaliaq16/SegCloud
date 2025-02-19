@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models.ReviewModel import ReviewModel
 from models.entities.Review import Review
+from utils.jwt_manager import require_jwt
 
 review_bp = Blueprint('review_bp', __name__)
 
@@ -26,6 +27,7 @@ def get_review(id):
 
 
 @review_bp.route('/add', methods=['POST'])
+@require_jwt
 def add_review():
     try:
         data = request.json
@@ -45,6 +47,7 @@ def add_review():
 
 
 @review_bp.route('/update/<id>', methods=['PUT'])
+@require_jwt
 def update_review(id):
     try:
         data = request.json
@@ -65,6 +68,7 @@ def update_review(id):
 
 
 @review_bp.route('/delete/<id>', methods=['DELETE'])
+@require_jwt
 def delete_review(id):
     try:
         affected_rows = ReviewModel.delete_review(id)
