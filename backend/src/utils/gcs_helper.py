@@ -2,14 +2,15 @@ from google.cloud import storage
 import os
 import uuid
 
+client = storage.Client.from_service_account_json("src/segcloudpr1-e590c7fe6d6b.json")
 # Configurar la conexión con GCS
 BUCKET_NAME = "mi-bucket-carros"
 
 def upload_image_to_gcs(file):
     """Sube una imagen al bucket de GCP y devuelve la URL pública."""
     try:
-        storage_client = storage.Client()
-        bucket = storage_client.bucket(BUCKET_NAME)
+        
+        bucket = client.bucket(BUCKET_NAME)
 
         # Generar un nombre único para la imagen
         file_extension = file.filename.split('.')[-1]
@@ -17,7 +18,7 @@ def upload_image_to_gcs(file):
 
         blob = bucket.blob(blob_name)
         blob.upload_from_file(file, content_type=file.content_type)
-        blob.make_public()  # Hacer la imagen accesible públicamente
+        #blob.make_public()  # Hacer la imagen accesible públicamente
 
         return blob.public_url
     except Exception as e:

@@ -17,7 +17,7 @@ def get_carro(id):
 
 @carro_bp.route('/add', methods=['POST'])
 @require_jwt
-def add_carro():
+def add_carro(user_id):
     data = request.form
     file = request.files.get('imagen') 
 
@@ -25,7 +25,7 @@ def add_carro():
     image_url = upload_image_to_gcs(file) if file else None
 
     nuevo_carro = Carro(
-        usuario_id=data.get("usuario_id"),
+        usuario_id=user_id,
         location=data.get("location"),
         model=data.get("model"),
         price=float(data.get("price")),

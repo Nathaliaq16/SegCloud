@@ -37,5 +37,7 @@ def require_jwt(f):
         if not payload:
             return jsonify({"error": "Token inválido o expirado"}), 401
 
-        return f(*args, **kwargs)
+        # Extraer user_id y pasarlo como argumento a la función protegida
+        return f(*args, **kwargs, user_id=payload["user_id"])
+
     return decorated_function
