@@ -22,7 +22,7 @@ def add_carro():
     file = request.files.get('imagen') 
 
     
-    imagen_url = upload_image_to_gcs(file) if file else None
+    image_url = upload_image_to_gcs(file) if file else None
 
     nuevo_carro = Carro(
         usuario_id=data.get("usuario_id"),
@@ -31,7 +31,7 @@ def add_carro():
         price=float(data.get("price")),
         year=int(data.get("year")),
         km=int(data.get("km")),
-        imagen_url=imagen_url
+        image_url=image_url
     )
 
     return jsonify(CarroModel.add_carro(nuevo_carro))
@@ -43,7 +43,7 @@ def update_carro(id):
     file = request.files.get('imagen')
 
     # Si hay una nueva imagen, subirla a GCS
-    imagen_url = upload_image_to_gcs(file) if file else data.get('imagen_url')
+    image_url = upload_image_to_gcs(file) if file else data.get('image_url')
 
     carro_actualizado = Carro(
         id=id,
@@ -53,7 +53,7 @@ def update_carro(id):
         price=float(data.get("price")),
         year=int(data.get("year")),
         km=int(data.get("km")),
-        imagen_url=imagen_url
+        image_url=image_url
     )
 
     return jsonify(CarroModel.update_carro(carro_actualizado))

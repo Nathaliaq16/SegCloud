@@ -3,13 +3,20 @@ from models.UsuarioModel import UsuarioModel
 from models.entities.Usuario import Usuario
 from utils.jwt_manager import generate_jwt, require_jwt
 from utils.security import check_password
-from app import limiter
+
+
+def get_limiter():
+    from app import limiter  # ✅ Importación dentro de la función
+    return limiter
 
 usuario_bp = Blueprint('usuario_bp', __name__)
 
 @usuario_bp.route('/login', methods=['POST'])
-@limiter.limit("3 per minute")
 def login():
+    limiter = get_limiter()  # Llamamos a la función para obtener `limiter`
+    limiter.limit("3 per minute")(login)  # Aplicamos el límite dinámicamente
+
+    
     data = request.json
     email = data.get("email")
     password = data.get("password")
