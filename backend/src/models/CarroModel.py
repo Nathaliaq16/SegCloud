@@ -12,7 +12,7 @@ class CarroModel:
             carros = []
 
             with connection.cursor() as cursor:
-                cursor.execute("SELECT id, usuario_id, location, model, price, year, km FROM public.carros")
+                cursor.execute("SELECT id, usuario_id, location, model, price, year, km, imagen_url FROM public.carros")
                 resultset = cursor.fetchall()
 
                 for carro in resultset:
@@ -34,7 +34,7 @@ class CarroModel:
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT id, usuario_id, location, model, price, year, km FROM public.carros WHERE id=%s", (id,))
+                cursor.execute("SELECT id, usuario_id, location, model, price, year, km, imagen_url FROM public.carros WHERE id=%s", (id,))
                 carro = cursor.fetchone()
 
                 if carro:
@@ -62,9 +62,9 @@ class CarroModel:
                 carro.location = bleach.clean(carro.location)
 
                 cursor.execute("""
-                    INSERT INTO public.carros (usuario_id, location, model, price, year, km)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                """, (carro.usuario_id, carro.location, carro.model, carro.price, carro.year, carro.km))
+                    INSERT INTO public.carros (usuario_id, location, model, price, year, km imagen_url)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                """, (carro.usuario_id, carro.location, carro.model, carro.price, carro.year, carro.km, carro.imagen_url))
 
                 if cursor.rowcount == 1:
                     connection.commit()
@@ -105,9 +105,9 @@ class CarroModel:
             with connection.cursor() as cursor:
                 cursor.execute("""
                     UPDATE public.carros 
-                    SET usuario_id=%s, location=%s, model=%s, price=%s, year=%s, km=%s
+                    SET usuario_id=%s, location=%s, model=%s, price=%s, year=%s, km=%s, imagen_url=%s
                     WHERE id = %s
-                """, (carro.usuario_id, carro.location, carro.model, carro.price, carro.year, carro.km, carro.id))
+                """, (carro.usuario_id, carro.location, carro.model, carro.price, carro.year, carro.km, carro.imagen_url, carro.id))
 
                 if cursor.rowcount == 1:
                     connection.commit()
