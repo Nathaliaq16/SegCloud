@@ -1,0 +1,62 @@
+/* Estilos generales para la pantalla de login */
+.login-container {
+  background: linear-gradient(to right, #0099cc, #33ccff);
+  height: 100vh;
+}
+
+.login-box {
+  display: flex;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  max-width: 900px;
+  width: 90%;
+}
+
+.image-section {
+  width: 50%;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.car-image {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-section {
+  width: 50%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.text-primary {
+  cursor: pointer;
+}
+
+.text-primary:hover {
+  text-decoration: underline;
+}
+
