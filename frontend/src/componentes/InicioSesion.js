@@ -11,7 +11,8 @@ const InicioSesion = ({ onLogin, isRegister }) => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [birthdate, setBirthdate] = useState("");
-  
+  const [isSeller, setIsSeller] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isRegister) {
@@ -26,7 +27,7 @@ const InicioSesion = ({ onLogin, isRegister }) => {
         city,
         country,
         birthdate,
-        is_seller: false,
+        is_seller: isSeller,
         is_admin: false,
       });
     } else {
@@ -35,22 +36,48 @@ const InicioSesion = ({ onLogin, isRegister }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="row">
       {isRegister && (
         <>
-          <input type="text" placeholder="Nombre de usuario" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          <input type="text" placeholder="Nombre" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-          <input type="text" placeholder="Apellido" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-          <input type="text" placeholder="Teléfono" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-          <input type="text" placeholder="Dirección" value={address} onChange={(e) => setAddress(e.target.value)} required />
-          <input type="text" placeholder="Ciudad" value={city} onChange={(e) => setCity(e.target.value)} required />
-          <input type="text" placeholder="País" value={country} onChange={(e) => setCountry(e.target.value)} required />
-          <input type="date" placeholder="Fecha de nacimiento" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} required />
+          <div className="col-md-6 mb-2">
+            <input type="text" className="form-control" placeholder="Nombre de usuario" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          </div>
+          <div className="col-md-6 mb-2">
+            <input type="text" className="form-control" placeholder="Nombre" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+          </div>
+          <div className="col-md-6 mb-2">
+            <input type="text" className="form-control" placeholder="Apellido" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+          </div>
+          <div className="col-md-6 mb-2">
+            <input type="text" className="form-control" placeholder="Teléfono" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
+          </div>
+          <div className="col-md-6 mb-2">
+            <input type="text" className="form-control" placeholder="Dirección" value={address} onChange={(e) => setAddress(e.target.value)} required />
+          </div>
+          <div className="col-md-6 mb-2">
+            <input type="text" className="form-control" placeholder="Ciudad" value={city} onChange={(e) => setCity(e.target.value)} required />
+          </div>
+          <div className="col-md-6 mb-2">
+            <input type="text" className="form-control" placeholder="País" value={country} onChange={(e) => setCountry(e.target.value)} required />
+          </div>
+          <div className="col-md-6 mb-2">
+            <input type="date" className="form-control" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} required />
+          </div>
+          <div className="col-md-12 mb-2 form-check">
+            <input type="checkbox" className="form-check-input" id="is_seller" checked={isSeller} onChange={() => setIsSeller(!isSeller)} />
+            <label className="form-check-label" htmlFor="is_seller">¿Eres vendedor?</label>
+          </div>
         </>
       )}
-      <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
-      <button type="submit">{isRegister ? "Registrarse" : "Ingresar"}</button>
+      <div className="col-md-6 mb-2">
+        <input type="email" className="form-control" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      </div>
+      <div className="col-md-6 mb-2">
+        <input type="password" className="form-control" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      </div>
+      <div className="col-12 mt-3">
+        <button type="submit" className="btn btn-primary w-100">{isRegister ? "Registrarse" : "Ingresar"}</button>
+      </div>
     </form>
   );
 };
