@@ -38,7 +38,7 @@ const PaginaInicioSesion = () => {
   };
 
   return (
-    <div className="login-container d-flex align-items-center justify-content-center vh-100">
+    <div className="d-flex align-items-center justify-content-center vh-100">
       <div className="login-box d-flex">
         {/* Sección Izquierda - Imagen */}
         <div className="image-section">
