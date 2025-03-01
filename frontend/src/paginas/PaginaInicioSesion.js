@@ -19,6 +19,7 @@ const PaginaInicioSesion = () => {
     try {
       const response = await api.post("/usuarios/login", formData);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user_id", response.data.user_id);
       navigate("/inicio");
     } catch (error) {
       setError("Credenciales incorrectas");

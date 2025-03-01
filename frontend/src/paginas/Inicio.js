@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ListaCarros from "../componentes/ListaCarros";
+import { useNavigate } from "react-router-dom";
 
 const Inicio = () => {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   return (
     <div>
-      <h2>Bienvenido</h2>
+      {user?.is_seller && (
+        <button className="btn btn-success mb-3" onClick={() => navigate("/vender")}>Vender</button>
+      )}
       <ListaCarros />
     </div>
   );
