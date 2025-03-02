@@ -8,7 +8,7 @@ carro_bp = Blueprint('carro_bp', __name__)
 
 @carro_bp.route('/', methods=['GET'])
 @require_jwt
-def get_carros():
+def get_carros(user_id):
     return jsonify(CarroModel.get_carros())
 
 @carro_bp.route('/<int:id>', methods=['GET'])
@@ -38,7 +38,7 @@ def add_carro(user_id):
 
 @carro_bp.route('/update/<int:id>', methods=['PUT'])
 @require_jwt
-def update_carro(id):
+def update_carro(id, user_id):
     data = request.form
     file = request.files.get('imagen')
 
@@ -60,5 +60,5 @@ def update_carro(id):
 
 @carro_bp.route('/delete/<int:id>', methods=['DELETE'])
 @require_jwt
-def delete_carro(id):
+def delete_carro(id, user_id):
     return jsonify(CarroModel.delete_carro(id))

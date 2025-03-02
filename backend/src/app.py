@@ -29,12 +29,13 @@ CORS(app, resources={"*": {"origins": "*"}})
 def page_not_found(error):
     return "Page not found", 404
 
-from routes import Carro, Review, Usuario
+from routes import Carro, Review, Usuario, Health
 
 # Blueprints
 app.register_blueprint(Carro.carro_bp, url_prefix='/api/carros')
 app.register_blueprint(Review.review_bp, url_prefix='/api/reviews')
 app.register_blueprint(Usuario.usuario_bp, url_prefix='/api/usuarios')
+app.register_blueprint(Health.health_bp, url_prefix='/health')
 
 # Error handling
 app.register_error_handler(404, page_not_found)

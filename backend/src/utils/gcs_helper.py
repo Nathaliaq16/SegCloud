@@ -2,7 +2,7 @@ from google.cloud import storage
 import os
 import uuid
 
-client = storage.Client.from_service_account_json("src/segcloudpr1-e590c7fe6d6b.json")
+client = storage.Client.from_service_account_json("segcloudpr1-e590c7fe6d6b.json")
 # Configurar la conexión con GCS
 BUCKET_NAME = "mi-bucket-carros"
 
