@@ -24,27 +24,42 @@ const Vender = () => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    try {
-      const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => {
-        formDataToSend.append(key, formData[key]);
-      });
-      const token = localStorage.getItem("token");
-      await api.post("/carros/add", formDataToSend, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      alert("Carro publicado con éxito");
-      navigate("/inicio");
-    } catch (error) {
-      setError("Error al publicar el carro");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError(null);
+  try {
+    const formDataToSend = new FormData();
+    
+    // Agregar campos de texto normalmente
+    formDataToSend.append("model", formData.model);
+    formDataToSend.append("location", formData.location);
+    formDataToSend.append("price", formData.price);
+    formDataToSend.append("year", formData.year);
+    formDataToSend.append("km", formData.km);
+
+    // Agregar la imagen asegurando que sea un archivo
+    if (formData.image) {
+      formDataToSend.append("imagen", formData.image); 
+    } else {
+      alert("Por favor selecciona una imagen.");
+      return;
     }
-  };
+
+    const token = localStorage.getItem("token");
+    await api.post("/carros/add", formDataToSend, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    alert("Carro publicado con éxito");
+    navigate("/inicio");
+  } catch (error) {
+    setError("Error al publicar el carro");
+    console.error("Error al subir el carro:", error);
+  }
+};
 
   return (
     <div className="container mt-5">

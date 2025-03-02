@@ -68,7 +68,7 @@ const publicarReseña = async (carroId) => {
     setReseñas((prevReseñas) => [
       ...prevReseñas,
       {
-        id: Date.now(), // Generamos un ID temporal
+        id: Date.now(), // ID temporal
         carro_id: carroId,
         rating: nuevaReseña.rating,
         comment: nuevaReseña.comment,
@@ -76,7 +76,7 @@ const publicarReseña = async (carroId) => {
       },
     ]);
 
-    // Resetear el formulario
+   
     setNuevaReseña({ rating: 5, comment: "" });
     setCarroSeleccionado(null);
   } catch (error) {
@@ -92,11 +92,17 @@ const publicarReseña = async (carroId) => {
           <div className="row g-0 align-items-center">
             <div className="col-md-4 d-flex justify-content-center align-items-center">
               <img
-                src={carro.image_url}
-                alt={carro.model}
-                className="img-fluid rounded-start"
-                style={{ maxHeight: "400px", maxWidth: "100%", objectFit: "cover" }}
-              />
+		  src={carro.image_url}
+		  alt={carro.model}
+		  className="img-fluid rounded-start"
+		  style={{
+		    width: "400px",
+		    height: "250px", 
+		    objectFit: "cover",
+		    borderRadius: "8px",
+		  }}
+		/>
+
             </div>
             
             <div className="col-md-8">
