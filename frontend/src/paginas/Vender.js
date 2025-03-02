@@ -17,6 +17,11 @@ const Vender = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // Funciones de validación
+  const validatePrice = (price) => price > 0;
+  const validateYear = (year) => year >= 1900 && year <= new Date().getFullYear();
+  const validateKm = (km) => km >= 0;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -29,9 +34,26 @@ const Vender = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
+    // Validaciones antes de enviar el formulario
+    if (!validatePrice(formData.price)) {
+      alert("El precio debe ser un número positivo.");
+      return;
+    }
+
+    if (!validateYear(formData.year)) {
+      alert(`El año debe estar entre 1900 y ${new Date().getFullYear()}.`);
+      return;
+    }
+
+    if (!validateKm(formData.km)) {
+      alert("El kilometraje debe ser un número positivo.");
+      return;
+    }
+
     try {
       const formDataToSend = new FormData();
-      
+
       // Agregar campos de texto
       formDataToSend.append("model", formData.model);
       formDataToSend.append("location", formData.location);
@@ -68,7 +90,7 @@ const Vender = () => {
       <div className="login-box d-flex flex-column w-50 p-4 shadow rounded bg-white">
         <h2 className="text-center mb-3">Publicar un Carro</h2>
         <p className="text-center">Llena los detalles para vender tu carro</p>
-        
+
         <form onSubmit={handleSubmit} className="row">
           <div className="col-md-6 mb-2">
             <input type="text" name="model" placeholder="Modelo" className="form-control" value={formData.model} onChange={handleChange} required />
@@ -90,14 +112,13 @@ const Vender = () => {
           </div>
           <div className="col-12 mt-3">
             {error && <p className="text-danger text-center">{error}</p>}
-	    <button 
-		  type="submit" 
-		  className="btn w-100 mt-3"
-		  style={{ backgroundColor: "#2b6d6f", color: "white" }}
-		>
-		  Publicar
-	</button>
-
+            <button 
+              type="submit" 
+              className="btn w-100 mt-3"
+              style={{ backgroundColor: "#2b6d6f", color: "white" }}
+            >
+              Publicar
+            </button>
           </div>
         </form>
       </div>
