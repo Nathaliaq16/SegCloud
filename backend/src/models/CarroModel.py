@@ -5,7 +5,7 @@ import bleach
 class CarroModel:
 
     @classmethod
-    def get_carros(cls):
+    def get_carros(cls, user_id):
         """ Obtiene todos los carros de la base de datos. """
         try:
             connection = get_connection()
@@ -16,7 +16,9 @@ class CarroModel:
                 resultset = cursor.fetchall()
 
                 for carro in resultset:
-                    carros.append(Carro(*carro).to_JSON())
+                    carro_dict = Carro(*carro).to_JSON()
+                    carro_dict["owner"] = 1 if carro[1] == user_id else 0  # usuario_id está en la posición 1
+                    carros.append(carro_dict)
 
             return carros
         except Exception as e:

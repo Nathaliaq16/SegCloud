@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import api from "../api";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import { useNavigate } from "react-router-dom";
 const ListaCarros = () => {
   const [carros, setCarros] = useState([]);
   const [reseñas, setReseñas] = useState([]);
   const [nuevaReseña, setNuevaReseña] = useState({ rating: 5, comment: "" });
   const [carroSeleccionado, setCarroSeleccionado] = useState(null);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const obtenerCarros = async () => {
@@ -17,6 +19,8 @@ const ListaCarros = () => {
         console.error("Error al obtener los carros", error);
       }
     };
+
+    
 
     const obtenerReseñas = async () => {
       try {
@@ -85,6 +89,9 @@ const publicarReseña = async (carroId) => {
   }
 };
 
+const editarCarro = (id) => {
+  navigate(`/editar-carro/${id}`);
+};
   return (
     <div className="container">
       {carros.map((carro) => (
@@ -112,7 +119,11 @@ const publicarReseña = async (carroId) => {
                 <p className="card-text"><strong>Precio:</strong> ${carro.price.toLocaleString()}</p>
                 <p className="card-text"><strong>Año:</strong> {carro.year}</p>
                 <p className="card-text"><strong>Kilometraje:</strong> {carro.km.toLocaleString()} km</p>
-                
+                {carro.owner === 1 && (
+                  <button className="btn btn-primary" onClick={() => editarCarro(carro.id)}>
+                    Editar
+                  </button>
+                )}
                 <ul className="list-unstyled">
                   {reseñas.filter((res) => res.carro_id === carro.id).map((res) => (
                     <li key={res.id} className="text-muted">

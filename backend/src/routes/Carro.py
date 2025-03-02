@@ -9,7 +9,7 @@ carro_bp = Blueprint('carro_bp', __name__)
 @carro_bp.route('/', methods=['GET'])
 @require_jwt
 def get_carros(user_id):
-    return jsonify(CarroModel.get_carros())
+    return jsonify(CarroModel.get_carros(user_id))
 
 @carro_bp.route('/<int:id>', methods=['GET'])
 def get_carro(id):

@@ -6,6 +6,8 @@ import Registro from "./paginas/Registro";
 import Inicio from "./paginas/Inicio";
 import Vender from "./paginas/Vender";
 
+import EditarCarro from "./paginas/Editar"; 
+
 const PrivateRoute = ({ element }) => {
   const token = localStorage.getItem("token");
   return token ? element : <Navigate to="/" />;
@@ -21,6 +23,7 @@ function App() {
           <Route path="/registro" element={<Registro />} />
           <Route path="/inicio" element={<PrivateRoute element={<Inicio />} />} />
           <Route path="/vender" element={<PrivateRoute element={<Vender />} />} />
+          <Route path="/editar-carro/:id" element={<PrivateRoute element={<EditarCarro />} />} />
         </Routes>
       </div>
     </Router>
