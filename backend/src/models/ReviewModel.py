@@ -47,7 +47,7 @@ class ReviewModel:
             release_connection(connection)
 
     @classmethod
-    def add_review(cls, review):
+    def add_review(cls, review, user_id):
         """ Agrega una nueva reseña a la base de datos. """
         try:
             connection = get_connection()
@@ -61,7 +61,7 @@ class ReviewModel:
                 cursor.execute("""
                     INSERT INTO public.review (usuario_id, carro_id, rating, comment, review_date)
                     VALUES (%s, %s, %s, %s, %s)
-                """, (review.usuario_id, review.carro_id, review.rating, review.comment, review.review_date))
+                """, (user_id, review.carro_id, review.rating, review.comment, review.review_date))
 
                 if cursor.rowcount == 1:
                     connection.commit()
