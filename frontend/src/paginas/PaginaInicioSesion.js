@@ -52,7 +52,14 @@ const PaginaInicioSesion = () => {
             onChange={handleChange}
           />
           {error && <p className="text-danger text-center">{error}</p>}
-          <button className="btn btn-primary w-100" onClick={handleLogin}>Iniciar Sesión</button>
+          <button 
+		  className="btn w-100"
+		  style={{ backgroundColor: "#2b6d6f", color: "white" }}
+		  onClick={handleLogin}
+		>
+		  Iniciar Sesión
+		</button>
+  
           <p className="text-center mt-2">
             ¿No tienes cuenta? <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => navigate("/registro")}>Regístrate</span>
           </p>

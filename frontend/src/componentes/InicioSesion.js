@@ -11,7 +11,7 @@ const InicioSesion = ({ onLogin, isRegister }) => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [birthdate, setBirthdate] = useState("");
-  const [isSeller, setIsSeller] = useState(false);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ const InicioSesion = ({ onLogin, isRegister }) => {
         city,
         country,
         birthdate,
-        is_seller: isSeller,
+        is_seller: true,
         is_admin: false,
       });
     } else {
@@ -64,8 +64,7 @@ const InicioSesion = ({ onLogin, isRegister }) => {
             <input type="date" className="form-control" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} required />
           </div>
           <div className="col-md-12 mb-2 form-check">
-            <input type="checkbox" className="form-check-input" id="is_seller" checked={isSeller} onChange={() => setIsSeller(!isSeller)} />
-            <label className="form-check-label" htmlFor="is_seller">¿Eres vendedor?</label>
+            
           </div>
         </>
       )}
@@ -76,8 +75,15 @@ const InicioSesion = ({ onLogin, isRegister }) => {
         <input type="password" className="form-control" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
       </div>
       <div className="col-12 mt-3">
-        <button type="submit" className="btn btn-primary w-100">{isRegister ? "Registrarse" : "Ingresar"}</button>
-      </div>
+	  <button 
+	    type="submit" 
+	    className="btn w-100" 
+	    style={{ backgroundColor: "#2b6d6f", color: "white" }}
+	  >
+	    {isRegister ? "Registrarse" : "Ingresar"}
+	  </button>
+</div>
+
     </form>
   );
 };

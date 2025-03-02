@@ -113,7 +113,6 @@ const publicarReseña = async (carroId) => {
                 <p className="card-text"><strong>Año:</strong> {carro.year}</p>
                 <p className="card-text"><strong>Kilometraje:</strong> {carro.km.toLocaleString()} km</p>
                 
-                <h5 className="mt-3">Reseñas:</h5>
                 <ul className="list-unstyled">
                   {reseñas.filter((res) => res.carro_id === carro.id).map((res) => (
                     <li key={res.id} className="text-muted">
@@ -124,9 +123,15 @@ const publicarReseña = async (carroId) => {
                 {reseñas.filter((res) => res.carro_id === carro.id).length === 0 && (
                   <p className="text-muted">No hay reseñas para este carro.</p>
                 )}
-                
-                <button className="btn btn-primary mt-2" onClick={() => setCarroSeleccionado(carro.id)}>Publicar Reseña</button>
-                {carroSeleccionado === carro.id && (
+                <button 
+		  className="btn mt-2" 
+		  style={{ backgroundColor: "#2b6d6f", color: "white" }}
+		  onClick={() => setCarroSeleccionado(carro.id)}
+		>
+		  Publicar Reseña
+		</button>
+
+                 {carroSeleccionado === carro.id && (
                   <div className="mt-3">
                     <select
                       name="rating"
