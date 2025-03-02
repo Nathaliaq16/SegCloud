@@ -92,6 +92,19 @@ const publicarReseña = async (carroId) => {
 const editarCarro = (id) => {
   navigate(`/editar-carro/${id}`);
 };
+
+const eliminarCarro = async (id) => {
+  if (window.confirm("¿Estás seguro de que quieres eliminar esta publicación?")) {
+    try {
+      await api.delete(`/carros/delete/${id}`);
+      setCarros(carros.filter((carro) => carro.id !== id));
+      alert("Carro eliminado correctamente");
+    } catch (error) {
+      console.error("Error al eliminar el carro", error);
+      alert("Hubo un error al eliminar el carro");
+    }
+  }
+};
   return (
     <div className="container">
       {carros.map((carro) => (
@@ -120,9 +133,15 @@ const editarCarro = (id) => {
                 <p className="card-text"><strong>Año:</strong> {carro.year}</p>
                 <p className="card-text"><strong>Kilometraje:</strong> {carro.km.toLocaleString()} km</p>
                 {carro.owner === 1 && (
-                  <button className="btn btn-primary" onClick={() => editarCarro(carro.id)}>
+                  <>
+                  <button className="btn btn-primary me-2" onClick={() => editarCarro(carro.id)}>
                     Editar
                   </button>
+                  <button className="btn btn-danger" onClick={() => eliminarCarro(carro.id)}>
+                    Eliminar
+                  </button>
+                </>
+                  
                 )}
                 <ul className="list-unstyled">
                   {reseñas.filter((res) => res.carro_id === carro.id).map((res) => (
